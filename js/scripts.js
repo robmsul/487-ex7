@@ -13,7 +13,7 @@ $(document).ready(function(){
 
   var grantsAwarded; // the data
   var html = ''; // the html that I will build
-  var url = 'NEH_Grants2010s.xml'; // the XML file
+  var url = '/js/NEH_Grants2010s.xml'; // the XML file
   var title = ''; // the Project Title: col 1
   var year = ''; // Year Awarded: col 2
   var amount = ''; // Original Amount: col 3
@@ -26,7 +26,8 @@ $(document).ready(function(){
     dataType: 'xml',
     async: true,
     success: function(grantsAwarded){
-      console.log('success');
+      console.log(grantsAwarded);
+      console.log('testing');
       
       // the table headers
       html += '<tr>';
@@ -38,10 +39,10 @@ $(document).ready(function(){
       
       // function to parse data
       $(grantsAwarded).find('Grant').each(function(){
-        title = $(this).find('ProjectTitle');
-        year = $(this).find('YearAwarded');
-        amount = $(this).find('OriginalAmount');
-        description = $(this).find('ToSupport');
+        title = $(this).find('ProjectTitle').text();
+        year = $(this).find('YearAwarded').text();
+        amount = $(this).find('OriginalAmount').text();
+        description = $(this).find('ToSupport').text();
         html += '<tr>';
         html += '<td>' + title + '</td>';
         html += '<td>' + year + '</td>';
@@ -52,7 +53,14 @@ $(document).ready(function(){
       });
       
       $('#results').append(html); // tell jQuery to insert the results
+    },
+    error:function(msg){
+      console.log('wtf');
+    },
+    complete:function(msg){
+      console.log('ajax complete');
     }
+    
     
   });
   
